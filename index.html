@@ -10,36 +10,78 @@
 
 <body>
 
-<h1><strong>What Can I Eat?</strong></h1>
-<hr size="3" noshade width="50%">
+  <h1><strong>What Can I Eat?</strong></h1>
+  <hr size="3" noshade width="50%">
 
-<form action="">
-  <label>Recipe Search:</label>
-  <input type="text">
-  <input type="submit">
-</form>
-<br>
-<form action="">
-  <label>Ingredients to Exclude:</label>
-  <input type="text">
-  <input type="submit">
-</form>
+  <form id="recipe-search">
+    <label>Recipe Search:</label>
+    <input 
+      type="text" 
+      placeholder="Search for a recipe" />
+    <input 
+      type="submit"
+      value="Search" />
+  </form>
+  <br>
 
-<!--Area to populate list of excluded ingredients-->
+  <form id="ingredients-to-exclude">
+    <label>Ingredients to Exclude:</label>
+    <input 
+      type="text" 
+      id="exclude-input"
+      placeholder="Enter ingredient to exclude"
+    />
+    <input 
+      type="submit" 
+      value="Add to List"
+    />
+  </form>
+  <br>
 
-<!--Area to show search results-->
+  <main>
+    
+    <section class="ingredient-list">
+      <h2>Excluded Ingredients</h2>
+      
+      <div id="excluded-ingredients">
 
+        <!--<div class="content">
+          <input 
+            type="text"
+            class="text"
+            value="ingredients go here"
+            readonly
+          />
+        </div>
+        <div class="actions">
+          <button class="remove">Remove</button>
 
+        </div>-->
 
+      </div>
 
+    </section>
+    <br>
+    
+    <section class="found recipes">
+      <h2>Found Recipes</h2>
 
+      <div id="found-recipes">
 
+        <div class="results">
+          <input 
+            type="text"
+            class="text"
+            value="results go here"
+            readonly
+          />
+        </div>
 
+      </div>
 
-
-
-
-
+    </section> 
+  </main>
+  <script src="ingredients.js"></script>
 
 
 </body>

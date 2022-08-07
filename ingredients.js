@@ -1,18 +1,18 @@
-//window.localStorage
-
 window.addEventListener('load', () => {
+    let storedIngredients = JSON.parse(localStorage.getItem('ingredients')) || [];
     const form = document.querySelector("#ingredients-to-exclude");
     const input = document.querySelector("#exclude-input");
     const list_el = document.querySelector("#excluded-ingredients");
+    let ingredients = []
 
     form.addEventListener('submit', e => {
         e.preventDefault();
 
         const excludeIngredient = input.value;
-
+        ingredients.push (excludeIngredient);
+        localStorage.setItem('ingredients', JSON.stringify(ingredients));
         const excludedIngredient_el = document.createElement("div");
         excludedIngredient_el.classList.add("excludeIngredient");
-
         const excludedIngredient_content_el = document.createElement("div");
         excludedIngredient_content_el.classList.add("content");
 
@@ -60,5 +60,12 @@ window.addEventListener('load', () => {
         excludedIngredient_remove_el.addEventListener('click', () => {
             list_el.removeChild(excludedIngredient_el);
         });
+        console.log(ingredients);
+        console.log(ingredients.toString());
     });
 });
+
+
+
+//use target.reset to clear forms?
+//add createdAt, (sort) ingredients by most recent date at top?

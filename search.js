@@ -2,7 +2,7 @@ window.addEventListener('load', () => {
     const form = document.querySelector("#recipe-search");
     const input = document.querySelector("#search-input");
     const foundRecipes = document.querySelector("#found-recipes");
-    const excludedIngredients = document.querySelector("#excluded-ingredients");
+    const excludedIngredients = JSON.parse(localStorage.getItem('ingredients')) || [];
 
 
     form.addEventListener('submit', e => {

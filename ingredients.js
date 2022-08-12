@@ -1,18 +1,30 @@
 window.addEventListener('load', () => {
-    let storedIngredients = JSON.parse(localStorage.getItem('ingredients')) || [];
+    
     const form = document.querySelector("#ingredients-to-exclude");
     const input = document.querySelector("#exclude-input");
     const list_el = document.querySelector("#excluded-ingredients");
-    let ingredients = []
+    let ingredients = JSON.parse(localStorage.getItem('ingredients')) || [];
 
     form.addEventListener('submit', e => {
         e.preventDefault();
 
         const excludeIngredient = input.value;
+
+        /* function emptyField() {
+            var empty = document.form.input.value;
+            if (empty === "") {
+                alert("Please enter an ingredient");
+                return false;
+            } else {
+                return true;
+        } */
+
         ingredients.push (excludeIngredient);
+        ingredients.sort();
         localStorage.setItem('ingredients', JSON.stringify(ingredients));
         const excludedIngredient_el = document.createElement("div");
         excludedIngredient_el.classList.add("excludeIngredient");
+        excludedIngredient_el.setAttribute('id', input.value);
         const excludedIngredient_content_el = document.createElement("div");
         excludedIngredient_content_el.classList.add("content");
 
@@ -60,12 +72,34 @@ window.addEventListener('load', () => {
         excludedIngredient_remove_el.addEventListener('click', () => {
             list_el.removeChild(excludedIngredient_el);
         });
+
+        
         console.log(ingredients);
         console.log(ingredients.toString());
     });
 });
 
 
-
+// stop 'add to list' button from working with nothing entered in the form
 //use target.reset to clear forms?
-//add createdAt, (sort) ingredients by most recent date at top?
+//(.sort) ingredients alphabetically?
+        // things to consider/avoid
+        //
+        // re-creating every element with each addition
+        //
+        // [apples, cocunuts]
+        // add banana
+        // [apples, bananas, coconuts]
+
+        // what was the food after bananas? bananas+1
+        // cocunuts
+        // lets get the div with id coconuts
+        // .insertBefore cocunuts our bananas div
+
+/* var removeDuplicates = ingredients.slice()
+  .sort(function(a,b){
+    return a > b;
+  })
+  .reduce(function(a,b){
+    if (a.slice(-1)[0] !== b) a.push(b);
+    return a; */

@@ -5,23 +5,8 @@ window.addEventListener('load', () => {
     const list_el = document.querySelector("#excluded-ingredients");
     let ingredients = JSON.parse(localStorage.getItem('ingredients')) || [];
 
-    form.addEventListener('submit', e => {
-        e.preventDefault();
+    function updateIngredientList() {
 
-        const excludeIngredient = input.value;
-
-        /* function emptyField() {
-            var empty = document.form.input.value;
-            if (empty === "") {
-                alert("Please enter an ingredient");
-                return false;
-            } else {
-                return true;
-        } */
-
-        ingredients.push (excludeIngredient);
-        ingredients.sort();
-        localStorage.setItem('ingredients', JSON.stringify(ingredients));
         const excludedIngredient_el = document.createElement("div");
         excludedIngredient_el.classList.add("excludeIngredient");
         excludedIngredient_el.setAttribute('id', input.value);
@@ -37,20 +22,20 @@ window.addEventListener('load', () => {
         excludedIngredient_input_el.setAttribute("readonly", "readonly");
         
         excludedIngredient_content_el.appendChild(excludedIngredient_input_el);
-    
+
         const excludedIngredient_actions_el = document.createElement("div");
         excludedIngredient_actions_el.classList.add("actions");
 
-		const excludedIngredient_edit_el = document.createElement("button");
-		excludedIngredient_edit_el.classList.add("edit");
-		excludedIngredient_edit_el.innerHTML = "Edit";
+        const excludedIngredient_edit_el = document.createElement("button");
+        excludedIngredient_edit_el.classList.add("edit");
+        excludedIngredient_edit_el.innerHTML = "Edit";
 
         const excludedIngredient_remove_el = document.createElement("button");
         excludedIngredient_remove_el.classList.add("remove");
         excludedIngredient_remove_el.innerHTML = "Remove";
 
         excludedIngredient_actions_el.appendChild(excludedIngredient_edit_el);
-		excludedIngredient_actions_el.appendChild(excludedIngredient_remove_el);
+        excludedIngredient_actions_el.appendChild(excludedIngredient_remove_el);
 
         excludedIngredient_el.appendChild(excludedIngredient_actions_el);
 
@@ -58,43 +43,83 @@ window.addEventListener('load', () => {
 
         input.value = "";
 
-		excludedIngredient_edit_el.addEventListener('click', () => {
-			if (excludedIngredient_edit_el.innerText.toLowerCase() === "edit") {
-				excludedIngredient_input_el.removeAttribute("readonly");
-				excludedIngredient_input_el.focus();
-				excludedIngredient_edit_el.innerText = "Save";
-			} else {
-				excludedIngredient_input_el.setAttribute("readonly", "readonly");
-				excludedIngredient_edit_el.innerText = "Edit";	
-			}
-		});	
+        excludedIngredient_edit_el.addEventListener('click', () => {
+            if (excludedIngredient_edit_el.innerText.toLowerCase() === "edit") {
+                excludedIngredient_input_el.removeAttribute("readonly");
+                excludedIngredient_input_el.focus();
+                excludedIngredient_edit_el.innerText = "Save";
+            } else {
+                excludedIngredient_input_el.setAttribute("readonly", "readonly");
+                excludedIngredient_edit_el.innerText = "Edit";	
+            }
+        });	
 
         excludedIngredient_remove_el.addEventListener('click', () => {
             list_el.removeChild(excludedIngredient_el);
         });
 
+    };
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const excludeIngredient = input.value;
+
+        ingredients.push (excludeIngredient);
+        ingredients.sort();
+        localStorage.setItem('ingredients', JSON.stringify(ingredients));
         
-        console.log(ingredients);
-        console.log(ingredients.toString());
+        var index = ingredients.indexOf (excludeIngredient);
+        console.log(ingredients.length, index);
+
+        if (index +1 !== ingredients.length) {
+            var nextIngredient = ingredients[index +1]   
+            var nextDiv = document.getElementById(nextIngredient); 
+            console.log(nextIngredient, nextDiv);   
+
+            updateIngredientList;
+
+            const parentDiv = document.getElementById("excluded-ingredients");
+
+            parentDiv.insertBefore(excludedIngredient_el, nextDiv)
+
+        } else {
+
+            updateIngredientList;
+
+            console.log(ingredients);
+            console.log(ingredients.toString());
+        }  
+
     });
 });
 
 
-// stop 'add to list' button from working with nothing entered in the form
-//use target.reset to clear forms?
-//(.sort) ingredients alphabetically?
-        // things to consider/avoid
-        //
-        // re-creating every element with each addition
-        //
-        // [apples, cocunuts]
-        // add banana
-        // [apples, bananas, coconuts]
+// new function to clean up duplicate code
 
-        // what was the food after bananas? bananas+1
-        // cocunuts
-        // lets get the div with id coconuts
-        // .insertBefore cocunuts our bananas div
+
+// stop 'add to list' button from working with nothing entered in the form
+
+
+//use target.reset to clear forms?
+
+
+/* excludedIngredient_edit_el.addEventListener('click', () => {
+            if (excludedIngredient_edit_el.innerText.toLowerCase() === "edit") {
+                excludedIngredient_input_el.removeAttribute("readonly");
+                excludedIngredient_input_el.focus();
+                excludedIngredient_edit_el.innerText = "Save";
+            } else {
+                excludedIngredient_input_el.setAttribute("readonly", "readonly");
+                excludedIngredient_edit_el.innerText = "Edit";	
+            }
+            // edit array or remove edit funtionality
+        });	
+
+        excludedIngredient_remove_el.addEventListener('click', () => {
+            list_el.removeChild(excludedIngredient_el);
+            //remove from array
+        }); */
 
 /* var removeDuplicates = ingredients.slice()
   .sort(function(a,b){
@@ -103,3 +128,12 @@ window.addEventListener('load', () => {
   .reduce(function(a,b){
     if (a.slice(-1)[0] !== b) a.push(b);
     return a; */
+
+/* function emptyField() {
+        var empty = document.form.input.value;
+        if (empty === "") {
+            alert("Please enter an ingredient");
+            return false;
+        } else {
+            return true;
+    } */

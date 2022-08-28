@@ -5,11 +5,17 @@ window.addEventListener('load', () => {
     const list_el = document.querySelector("#excluded-ingredients");
     let ingredients = JSON.parse(localStorage.getItem('ingredients')) || [];
 
-    function updateIngredientList() {
+    if (ingredients.length > 0) {
+        ingredients.forEach(element => {
+            updateIngredientList(element);
+        });
+    }
+
+    function updateIngredientList(excludeIngredient) {
 
         const excludedIngredient_el = document.createElement("div");
         excludedIngredient_el.classList.add("excludeIngredient");
-        excludedIngredient_el.setAttribute('id', input.value);
+        excludedIngredient_el.setAttribute('id', excludeIngredient);
         const excludedIngredient_content_el = document.createElement("div");
         excludedIngredient_content_el.classList.add("content");
 
@@ -26,15 +32,10 @@ window.addEventListener('load', () => {
         const excludedIngredient_actions_el = document.createElement("div");
         excludedIngredient_actions_el.classList.add("actions");
 
-        const excludedIngredient_edit_el = document.createElement("button");
-        excludedIngredient_edit_el.classList.add("edit");
-        excludedIngredient_edit_el.innerHTML = "Edit";
-
         const excludedIngredient_remove_el = document.createElement("button");
         excludedIngredient_remove_el.classList.add("remove");
         excludedIngredient_remove_el.innerHTML = "Remove";
 
-        excludedIngredient_actions_el.appendChild(excludedIngredient_edit_el);
         excludedIngredient_actions_el.appendChild(excludedIngredient_remove_el);
 
         excludedIngredient_el.appendChild(excludedIngredient_actions_el);
@@ -43,27 +44,25 @@ window.addEventListener('load', () => {
 
         input.value = "";
 
-        excludedIngredient_edit_el.addEventListener('click', () => {
-            if (excludedIngredient_edit_el.innerText.toLowerCase() === "edit") {
-                excludedIngredient_input_el.removeAttribute("readonly");
-                excludedIngredient_input_el.focus();
-                excludedIngredient_edit_el.innerText = "Save";
-            } else {
-                excludedIngredient_input_el.setAttribute("readonly", "readonly");
-                excludedIngredient_edit_el.innerText = "Edit";	
-            }
-        });	
-
         excludedIngredient_remove_el.addEventListener('click', () => {
-            list_el.removeChild(excludedIngredient_el);
+        list_el.removeChild(excludedIngredient_el);
+        // logic to remove from array
         });
+
+        return excludedIngredient_el;
 
     };
 
     form.addEventListener('submit', e => {
         e.preventDefault();
 
-        const excludeIngredient = input.value;
+        const value = input.value;
+        const excludeIngredient = value.trim();
+
+        if (ingredients.indexOf(excludeIngredient) !== -1 || excludeIngredient === "") {
+            alert("Invalid entry, please try another entry");
+            return false;
+        } 
 
         ingredients.push (excludeIngredient);
         ingredients.sort();
@@ -77,15 +76,15 @@ window.addEventListener('load', () => {
             var nextDiv = document.getElementById(nextIngredient); 
             console.log(nextIngredient, nextDiv);   
 
-            updateIngredientList;
-
+            var excludedIngredient_el = updateIngredientList(excludeIngredient);
+            console.log(excludedIngredient_el);
             const parentDiv = document.getElementById("excluded-ingredients");
 
             parentDiv.insertBefore(excludedIngredient_el, nextDiv)
 
         } else {
 
-            updateIngredientList;
+            updateIngredientList(excludeIngredient);
 
             console.log(ingredients);
             console.log(ingredients.toString());
@@ -93,47 +92,3 @@ window.addEventListener('load', () => {
 
     });
 });
-
-
-// new function to clean up duplicate code
-
-
-// stop 'add to list' button from working with nothing entered in the form
-
-
-//use target.reset to clear forms?
-
-
-/* excludedIngredient_edit_el.addEventListener('click', () => {
-            if (excludedIngredient_edit_el.innerText.toLowerCase() === "edit") {
-                excludedIngredient_input_el.removeAttribute("readonly");
-                excludedIngredient_input_el.focus();
-                excludedIngredient_edit_el.innerText = "Save";
-            } else {
-                excludedIngredient_input_el.setAttribute("readonly", "readonly");
-                excludedIngredient_edit_el.innerText = "Edit";	
-            }
-            // edit array or remove edit funtionality
-        });	
-
-        excludedIngredient_remove_el.addEventListener('click', () => {
-            list_el.removeChild(excludedIngredient_el);
-            //remove from array
-        }); */
-
-/* var removeDuplicates = ingredients.slice()
-  .sort(function(a,b){
-    return a > b;
-  })
-  .reduce(function(a,b){
-    if (a.slice(-1)[0] !== b) a.push(b);
-    return a; */
-
-/* function emptyField() {
-        var empty = document.form.input.value;
-        if (empty === "") {
-            alert("Please enter an ingredient");
-            return false;
-        } else {
-            return true;
-    } */

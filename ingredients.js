@@ -47,6 +47,14 @@ window.addEventListener('load', () => {
         excludedIngredient_remove_el.addEventListener('click', () => {
         list_el.removeChild(excludedIngredient_el);
         // logic to remove from array
+        var indexToRemove = ingredients.indexOf(excludedIngredient => {
+            return object.id === excludedIngredient
+        });
+        console.log(indexToRemove);
+        
+        ingredients.splice(indexToRemove, 1);
+
+         // logic to remove from array
         });
 
         return excludedIngredient_el;

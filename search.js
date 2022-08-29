@@ -5,26 +5,32 @@ window.addEventListener('load', () => {
     const excludedIngredients = JSON.parse(localStorage.getItem('ingredients')) || [];
 
 
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async e => {
         e.preventDefault();
 
         let recipeSearch = input.value;
 
         console.log(excludedIngredients);
-        //const recipe = await getRecipeResults(excludedIngredients);
+        
+        const recipe = await getRecipeResults(excludedIngredients.toString(), recipeSearch);
+        console.log(recipe);
     });
 
 });
 
 
-/* async function getRecipeResults(ingredients) {
+async function getRecipeResults(ingredients, recipeSearch) {
 	try {
-		const response = await axios.get(`https://api.spoonacular.com/recipes/&excludeIngredients=${ingredients}&apiKey=78e4c5bb5b3b49b3b18ee417b2f0ed26`);
-		console.log(response);
+        var request = `https://api.spoonacular.com/recipes/complexSearch?query=${recipeSearch}&number=5&addRecipeInformation=true&excludeIngredients=${ingredients}&apiKey=78e4c5bb5b3b49b3b18ee417b2f0ed26`
+		console.log(request);
+        const response = await axios.get(request);
+        return response.data.results
 	}
 	catch (error) {
 		console.log(error);
 	}
-} */
+}
 
-//complexSearch?query=xxxxxx&addRecipeInformation=true
+// how do we want to display results?
+// titles on top left screen - cook time/prep time top right screen
+// save recipes?

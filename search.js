@@ -12,8 +12,10 @@ window.addEventListener('load', () => {
 
         console.log(excludedIngredients);
         
-        const recipe = await getRecipeResults(excludedIngredients.toString(), recipeSearch);
-        console.log(recipe);
+        const recipes = await getRecipeResults(excludedIngredients.toString(), recipeSearch);
+        console.log(recipes);
+        //check length of recipes greater than zero
+        
     });
 
 });

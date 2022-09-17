@@ -13,38 +13,30 @@ window.addEventListener('load', () => {
 
     function updateIngredientList(excludeIngredient) {
 
-        const excludedIngredient_el = document.createElement("div");
+        const excludedIngredient_el = document.createElement("button");
         excludedIngredient_el.classList.add("excludeIngredient");
         excludedIngredient_el.setAttribute('id', excludeIngredient);
+        excludedIngredient_el.setAttribute('class', "btn btn-primary ms-1");
         const excludedIngredient_content_el = document.createElement("div");
+        // styling to center on button, display flex
         excludedIngredient_content_el.classList.add("content");
 
         excludedIngredient_el.appendChild(excludedIngredient_content_el);
 
-        const excludedIngredient_input_el = document.createElement("input");
-        excludedIngredient_input_el.classList.add("text");
-        excludedIngredient_input_el.type = "text";
-        excludedIngredient_input_el.value = excludeIngredient;
-        excludedIngredient_input_el.setAttribute("readonly", "readonly");
+        const excludedIngredient_input_el = document.createElement("p");
+        excludedIngredient_input_el.innerHTML = excludeIngredient;
         
         excludedIngredient_content_el.appendChild(excludedIngredient_input_el);
-
-        const excludedIngredient_actions_el = document.createElement("div");
-        excludedIngredient_actions_el.classList.add("actions");
-
-        const excludedIngredient_remove_el = document.createElement("button");
-        excludedIngredient_remove_el.classList.add("remove");
-        excludedIngredient_remove_el.innerHTML = "Remove";
-
-        excludedIngredient_actions_el.appendChild(excludedIngredient_remove_el);
-
-        excludedIngredient_el.appendChild(excludedIngredient_actions_el);
+        const removeElement = document.createElement("span");
+        removeElement.setAttribute('class', "badge text-bg-secondary");
+        removeElement.innerHTML = "x";
+        excludedIngredient_content_el.appendChild(removeElement);
 
         list_el.appendChild(excludedIngredient_el);
 
         input.value = "";
 
-        excludedIngredient_remove_el.addEventListener('click', () => {
+        excludedIngredient_el.addEventListener('click', () => {
         var ingredientId = excludedIngredient_el.getAttribute('id');       
 
         var indexToRemove = ingredients.indexOf(ingredientId);

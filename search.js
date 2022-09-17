@@ -4,6 +4,8 @@ window.addEventListener('load', () => {
     const foundRecipes = document.querySelector("#found-recipes");
     const excludedIngredients = JSON.parse(localStorage.getItem('ingredients')) || [];
 
+// copy from excluded ingredients script and bootstrap get title for found recipes
+
 
     form.addEventListener('submit', async e => {
         e.preventDefault();
@@ -33,6 +35,6 @@ async function getRecipeResults(ingredients, recipeSearch) {
 	}
 }
 
-// how do we want to display results?
+// how do we want to display results? cards
 // titles on top left screen - cook time/prep time top right screen
 // save recipes?

@@ -10,43 +10,58 @@
       integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   </head>
 
-<body>
+<body style="width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;">
 
-  <h1><strong>What Can I Eat?</strong></h1>
-  <hr size="3" noshade width="50%">
+  <h1 style="text-align:center"><strong>What Can I Eat?</strong></h1>
+  <hr size="3" noshade width="100%">
 
+  
   <form id="recipe-search">
-    <label>Recipe Search:</label>
+    <div class="input-group mb-3">
     <input 
       type="text"
       id = "search-input"
-      placeholder="Search for a recipe" />
+      placeholder="Search for a recipe" 
+      class="form-control"/>
+    
     <input 
       type="submit"
-      value="Search" />
+      value="Search" 
+      class="btn btn-outline-secondary"/>
+    </div>
   </form>
+  
+
   <br>
 
   <form id="ingredients-to-exclude">
-    <label>Ingredients to Exclude:</label>
-    <input 
+    <div class="input-group mb-3">
+      <input 
       type="text"
       id="exclude-input"
       placeholder="Enter ingredient to exclude"
-    />
-    <input 
+      class="form-control"/>
+      <input 
       type="submit" 
       value="Add to List"
-    />
+      class="btn btn-outline-secondary"/>
+    </div>
   </form>
+
   <br>
 
   <main>
     
     <section class="ingredient-list">
-      <h2>Excluded Ingredients</h2>
+      <h2 style="text-align:center">Excluded Ingredients</h2>
       
-      <div id="excluded-ingredients">
+      <div id="excluded-ingredients" 
+      style="display: flex;
+      flex-wrap: wrap;
+      justify-content: center;">
 
         <!--<div class="content">
           <input 
@@ -67,7 +82,7 @@
     <br>
     
     <section class="found recipes">
-      <h2>Found Recipes</h2>
+      <h2 style="text-align:center">Found Recipes</h2>
 
       <div id="found-recipes">
 

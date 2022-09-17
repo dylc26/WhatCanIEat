@@ -4,8 +4,12 @@ window.addEventListener('load', () => {
     const foundRecipes = document.querySelector("#found-recipes");
     const excludedIngredients = JSON.parse(localStorage.getItem('ingredients')) || [];
 
-// copy from excluded ingredients script and bootstrap get title for found recipes
-
+// copy from excluded ingredients script and bootstrap get title for foundRecipes
+    /*  if (recipes.length > 0) {
+        foundRecipes.forEach(element => {
+            foundRecipes(element);
+        });
+     }; */
 
     form.addEventListener('submit', async e => {
         e.preventDefault();
@@ -16,12 +20,10 @@ window.addEventListener('load', () => {
         
         const recipes = await getRecipeResults(excludedIngredients.toString(), recipeSearch);
         console.log(recipes);
-        //check length of recipes greater than zero
         
+        });
+
     });
-
-});
-
 
 async function getRecipeResults(ingredients, recipeSearch) {
 	try {

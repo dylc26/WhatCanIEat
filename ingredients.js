@@ -18,7 +18,8 @@ window.addEventListener('load', () => {
         excludedIngredient_el.setAttribute('id', excludeIngredient);
         excludedIngredient_el.setAttribute('class', "btn btn-primary ms-1");
         const excludedIngredient_content_el = document.createElement("div");
-        // styling to center on button, display flex
+        excludedIngredient_content_el.setAttribute('style', "display: flex; justify-content: center; padding: 3px");
+        //why is the gray around the x so tall?
         excludedIngredient_content_el.classList.add("content");
 
         excludedIngredient_el.appendChild(excludedIngredient_content_el);
@@ -29,7 +30,7 @@ window.addEventListener('load', () => {
         excludedIngredient_content_el.appendChild(excludedIngredient_input_el);
         const removeElement = document.createElement("span");
         removeElement.setAttribute('class', "badge text-bg-secondary");
-        removeElement.innerHTML = "x";
+        removeElement.innerHTML = " x";
         excludedIngredient_content_el.appendChild(removeElement);
 
         list_el.appendChild(excludedIngredient_el);

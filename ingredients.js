@@ -16,21 +16,22 @@ window.addEventListener('load', () => {
         const excludedIngredient_el = document.createElement("button");
         excludedIngredient_el.classList.add("excludeIngredient");
         excludedIngredient_el.setAttribute('id', excludeIngredient);
-        excludedIngredient_el.setAttribute('class', "btn btn-primary ms-1");
+        excludedIngredient_el.setAttribute('class', "btn btn-primary ms-2 my-1 text-capitalize");
         const excludedIngredient_content_el = document.createElement("div");
-        excludedIngredient_content_el.setAttribute('style', "display: flex; justify-content: center; padding: 3px");
-        //why is the gray around the x so tall?
+        excludedIngredient_content_el.setAttribute('style', "display: flex");
+        //button was so tall because the p element created displaying the word has default spacing below of 1.
         excludedIngredient_content_el.classList.add("content");
 
         excludedIngredient_el.appendChild(excludedIngredient_content_el);
 
         const excludedIngredient_input_el = document.createElement("p");
-        excludedIngredient_input_el.innerHTML = excludeIngredient;
+        excludedIngredient_input_el.setAttribute('style', "margin-bottom: 0");
+        excludedIngredient_input_el.innerHTML = excludeIngredient, " ";
         
         excludedIngredient_content_el.appendChild(excludedIngredient_input_el);
         const removeElement = document.createElement("span");
-        removeElement.setAttribute('class', "badge text-bg-secondary");
-        removeElement.innerHTML = " x";
+        removeElement.setAttribute('class', "badge text-bg-secondary ms-1 my-auto");
+        removeElement.innerHTML = "x";
         excludedIngredient_content_el.appendChild(removeElement);
 
         list_el.appendChild(excludedIngredient_el);

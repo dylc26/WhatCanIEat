@@ -4,13 +4,6 @@ window.addEventListener('load', () => {
     const foundRecipes = document.querySelector("#found-recipes");
     const excludedIngredients = JSON.parse(localStorage.getItem('ingredients')) || [];
 
-// copy from excluded ingredients script and bootstrap get title for foundRecipes
-    /*  if (recipes.length > 0) {
-        foundRecipes.forEach(element => {
-            foundRecipes(element);
-        });
-     }; */
-
     function renderRecipes(recipes) {
         const cardContainer = document.createElement("div");
         cardContainer.setAttribute('id', "cardContainer");
@@ -84,7 +77,7 @@ window.addEventListener('load', () => {
 
 async function getRecipeResults(ingredients, recipeSearch) {
 	try {
-        var request = `https://api.spoonacular.com/recipes/complexSearch?query=${recipeSearch}&number=10&addRecipeInformation=true&excludeIngredients=${ingredients}&apiKey=78e4c5bb5b3b49b3b18ee417b2f0ed26`
+        var request = `https://api.spoonacular.com/recipes/complexSearch?query=${recipeSearch}&number=5&addRecipeInformation=true&excludeIngredients=${ingredients}&apiKey=78e4c5bb5b3b49b3b18ee417b2f0ed26`
 		console.log(request);
         const response = await axios.get(request);
         return response.data.results
@@ -94,6 +87,14 @@ async function getRecipeResults(ingredients, recipeSearch) {
 	}
 }
 
-// how do we want to display results? cards
-// titles on top left screen - cook time/prep time top right screen
-// save recipes?
+/* save recipes?
+
+Default:
+"summary":"Need a <b>gluten free and dairy free main course</b>? Hawaiian Barbequed \"Huli-Huli\" Chicken could be a great recipe to try. For <b>$1.13 per serving</b>, this recipe <b>covers 18%</b> of your daily requirements of vitamins and minerals. One serving contains <b>478 calories</b>, <b>27g of protein</b>, and <b>24g of fat</b>. 1 person has tried and liked this recipe. If you have garlic cloves, soy sauce, ketchup, and a few other ingredients on hand, you can make it. From preparation to the plate, this recipe takes around <b>45 minutes</b>. All things considered, we decided this recipe <b>deserves a spoonacular score of 45%</b>. This score is good.
+
+Condensed:
+"summary":"Need a <b>"diets" "dishTypes"</b>? "title" could be a great recipe to try. **One serving contains <b>478 calories</b>, <b>27g of protein</b>, and <b>24g of fat</b>.** All things considered, we decided this recipe <b>deserves a spoonacular score of 45%</b>.
+
+** where are these values coming from?
+
+If we do a saved recipes tab, save by "spoonacularSourceUrl", display "title" */

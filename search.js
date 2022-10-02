@@ -20,7 +20,7 @@ window.addEventListener('load', () => {
 
             const cardImage= document.createElement("img");
             cardImage.setAttribute('class', "img-fluid rounded-start");
-            cardImage.setAttribute('img', recipe.image)
+            cardImage.setAttribute('src', recipe.image)
             cardImage.setAttribute('alt', recipe.title)
 
             const column2= document.createElement("div");
@@ -37,6 +37,12 @@ window.addEventListener('load', () => {
             readyInMinutes.setAttribute('class', "card-text");
             readyInMinutes.innerHTML = "Ready in minutes " + recipe.readyInMinutes;
 
+            const openModal= document.createElement("button");
+            openModal.setAttribute('class', "btn btn-primary");
+            openModal.setAttribute('data-bs-toggle', "modal");
+            openModal.setAttribute('data-bs-target', `${recipe.title}`);
+            openModal.innerHTML="Expand";
+
             const cardSummary= document.createElement("p");
             cardSummary.setAttribute('class', "card-text");
             cardSummary.innerHTML = recipe.summary;
@@ -47,12 +53,49 @@ window.addEventListener('load', () => {
             cardBody.appendChild(cardTitle);
             cardBody.appendChild(cardSummary);
             cardBody.appendChild(readyInMinutes);
+            cardBody.appendChild(openModal);
 
             cardContainer.appendChild(card);
             card.appendChild(row);
             row.appendChild(column1);
             row.appendChild(column2);
             
+            const modal= document.createElement("div");
+            modal.setAttribute('class', "modal");
+            modal.setAttribute("tabindex", "-1");
+            modal.setAttribute('id', recipe.title);
+
+            const modalDialog= document.createElement("div");
+            modalDialog.setAttribute('class', "modal-dialog modal-dialog-scrollable");
+            
+            const modalContent= document.createElement("div");
+            modalContent.setAttribute('class', "modal-content");
+
+            const modalBody= document.createElement("div");
+            modalBody.setAttribute('class', "modal-body");
+
+            const modalFooter= document.createElement("div");
+            modalFooter.setAttribute('class', "modal-footer");
+
+            const closeModal= document.createElement("button");
+            closeModal.setAttribute('class', "btn btn-primary");
+            closeModal.setAttribute('data-bs-dismiss', "modal");
+            closeModal.innerHTML="Close"
+
+            const recipeExpand = document.createElement("iframe");
+            recipeExpand.setAttribute('src', recipe.sourceUrl);
+
+            modal.appendChild(modalDialog);
+            modalDialog.appendChild(modalContent);
+            modalContent.appendChild(modalBody);
+            modalContent.appendChild(modalFooter);
+
+            modalFooter.appendChild(closeModal);
+            modalBody.appendChild(recipeExpand);
+            modalBody.appendChild(modalFooter);
+            
+            card.appendChild(modal);
+
         });
         
         foundRecipes.appendChild(cardContainer);
@@ -69,6 +112,9 @@ window.addEventListener('load', () => {
         const recipes = await getRecipeResults(excludedIngredients.toString(), recipeSearch);
         console.log(recipes);
         
+        const element = document.getElementById("cardContainer")
+        if(element)element.remove();
+
         renderRecipes(recipes);
         
         });
@@ -77,7 +123,7 @@ window.addEventListener('load', () => {
 
 async function getRecipeResults(ingredients, recipeSearch) {
 	try {
-        var request = `https://api.spoonacular.com/recipes/complexSearch?query=${recipeSearch}&number=5&addRecipeInformation=true&excludeIngredients=${ingredients}&apiKey=78e4c5bb5b3b49b3b18ee417b2f0ed26`
+        var request = `https://api.spoonacular.com/recipes/complexSearch?query=${recipeSearch}&number=5&addRecipeInformation=true&addRecipeNutrition=true&excludeIngredients=${ingredients}&apiKey=78e4c5bb5b3b49b3b18ee417b2f0ed26`
 		console.log(request);
         const response = await axios.get(request);
         return response.data.results

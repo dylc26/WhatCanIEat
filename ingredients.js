@@ -19,14 +19,13 @@ window.addEventListener('load', () => {
         excludedIngredient_el.setAttribute('class', "btn btn-primary ms-2 my-1 text-capitalize");
         const excludedIngredient_content_el = document.createElement("div");
         excludedIngredient_content_el.setAttribute('style', "display: flex");
-        //button was so tall because the p element created displaying the word has default spacing below of 1.
         excludedIngredient_content_el.classList.add("content");
 
         excludedIngredient_el.appendChild(excludedIngredient_content_el);
 
         const excludedIngredient_input_el = document.createElement("p");
         excludedIngredient_input_el.setAttribute('style', "margin-bottom: 0");
-        excludedIngredient_input_el.innerHTML = excludeIngredient, " ";
+        excludedIngredient_input_el.innerHTML = excludeIngredient;
         
         excludedIngredient_content_el.appendChild(excludedIngredient_input_el);
         const removeElement = document.createElement("span");

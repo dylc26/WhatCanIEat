@@ -83,7 +83,7 @@ window.addEventListener('load', () => {
             closeModal.innerHTML="Close"
 
             const recipeExpand = document.createElement("iframe");
-            recipeExpand.setAttribute('src', recipe.sourceUrl);
+            recipeExpand.setAttribute('src', recipe.spoonacularSourceUrl);
 
             modal.appendChild(modalDialog);
             modalDialog.appendChild(modalContent);
@@ -92,8 +92,7 @@ window.addEventListener('load', () => {
 
             modalFooter.appendChild(closeModal);
             modalBody.appendChild(recipeExpand);
-            modalBody.appendChild(modalFooter);
-            
+                        
             card.appendChild(modal);
 
         });

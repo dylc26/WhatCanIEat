@@ -19,7 +19,7 @@ window.addEventListener('load', () => {
             column1.setAttribute('class', "col-md-4");
 
             const cardImage= document.createElement("img");
-            cardImage.setAttribute('class', "img-fluid rounded-start");
+            cardImage.setAttribute('class', "image img-fluid rounded-start");
             cardImage.setAttribute('src', recipe.image)
             cardImage.setAttribute('alt', recipe.title)
 
@@ -39,13 +39,14 @@ window.addEventListener('load', () => {
 
             const openModal= document.createElement("button");
             openModal.setAttribute('class', "btn btn-primary");
-            openModal.setAttribute('data-bs-toggle', "modal");
-            openModal.setAttribute('data-bs-target', `${recipe.title}`);
+            openModal.setAttribute('data-toggle', "modal");
+            openModal.setAttribute('data-target', `#${String(recipe.id)}`);
             openModal.innerHTML="Expand";
 
             const cardSummary= document.createElement("p");
             cardSummary.setAttribute('class', "card-text");
-            cardSummary.innerHTML = recipe.summary;
+            var recipeSummary= generateSummary(recipe);
+            cardSummary.innerHTML = recipeSummary;
             
             column1.appendChild(cardImage);
 
@@ -62,8 +63,10 @@ window.addEventListener('load', () => {
             
             const modal= document.createElement("div");
             modal.setAttribute('class', "modal");
-            modal.setAttribute("tabindex", "-1");
-            modal.setAttribute('id', recipe.title);
+            modal.setAttribute("tabindex", "9999");
+            modal.setAttribute('id', String(recipe.id));
+            modal.setAttribute("aria-hidden", "false");
+            modal.setAttribute("role", "dialog");
 
             const modalDialog= document.createElement("div");
             modalDialog.setAttribute('class', "modal-dialog modal-dialog-scrollable");
@@ -79,11 +82,12 @@ window.addEventListener('load', () => {
 
             const closeModal= document.createElement("button");
             closeModal.setAttribute('class', "btn btn-primary");
-            closeModal.setAttribute('data-bs-dismiss', "modal");
+            closeModal.setAttribute('data-dismiss', "modal");
             closeModal.innerHTML="Close"
 
             const recipeExpand = document.createElement("iframe");
             recipeExpand.setAttribute('src', recipe.spoonacularSourceUrl);
+            recipeExpand.setAttribute('class', "browser");
 
             modal.appendChild(modalDialog);
             modalDialog.appendChild(modalContent);
@@ -93,7 +97,7 @@ window.addEventListener('load', () => {
             modalFooter.appendChild(closeModal);
             modalBody.appendChild(recipeExpand);
                         
-            card.appendChild(modal);
+            cardBody.appendChild(modal);
 
         });
         
@@ -113,8 +117,14 @@ window.addEventListener('load', () => {
         
         const element = document.getElementById("cardContainer")
         if(element)element.remove();
-
-        renderRecipes(recipes);
+        if(recipes.length===0){
+            const cardContainer = document.createElement("div");
+            cardContainer.setAttribute('id', "cardContainer"); 
+            cardContainer.innerHTML = "No recipes found.";     
+             foundRecipes.appendChild(cardContainer);
+        } else{
+            renderRecipes(recipes);
+        }
         
         });
 
@@ -132,14 +142,21 @@ async function getRecipeResults(ingredients, recipeSearch) {
 	}
 }
 
-/* save recipes?
+function generateSummary(recipe) {
 
-Default:
-"summary":"Need a <b>gluten free and dairy free main course</b>? Hawaiian Barbequed \"Huli-Huli\" Chicken could be a great recipe to try. For <b>$1.13 per serving</b>, this recipe <b>covers 18%</b> of your daily requirements of vitamins and minerals. One serving contains <b>478 calories</b>, <b>27g of protein</b>, and <b>24g of fat</b>. 1 person has tried and liked this recipe. If you have garlic cloves, soy sauce, ketchup, and a few other ingredients on hand, you can make it. From preparation to the plate, this recipe takes around <b>45 minutes</b>. All things considered, we decided this recipe <b>deserves a spoonacular score of 45%</b>. This score is good.
+let summaryIndex = recipe.summary.search(/%/)
+let result = recipe.summary.substring(summaryIndex -2, summaryIndex);
+let score = result=="00" ? "100" : result;
+let diets = recipe.diets.toString().split(",").join(", ")
+let dishTypes = recipe.dishTypes.toString().split(",").join(", ")
 
-Condensed:
-"summary":"Need a <b>"diets" "dishTypes"</b>? "title" could be a great recipe to try. **One serving contains <b>478 calories</b>, <b>27g of protein</b>, and <b>24g of fat</b>.** All things considered, we decided this recipe <b>deserves a spoonacular score of 45%</b>.
+var summary = `Need a <b>${diets} ${dishTypes}?</b> This could be a great recipe to try. One serving contains <b> ${recipe.nutrition.nutrients[0].amount} calories,  ${recipe.nutrition.nutrients[8].amount}g of protein, ${recipe.nutrition.nutrients[1].amount}g of fat</b>. All things considered, we decided this recipe <b>deserves a spoonacular score of ${score}%</b>.`;
 
-** where are these values coming from?
+return summary
+}
 
-If we do a saved recipes tab, save by "spoonacularSourceUrl", display "title" */
+
+
+
+
+/* save recipes?*/
